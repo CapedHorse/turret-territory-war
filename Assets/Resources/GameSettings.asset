@@ -12,18 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2917f2dfcbed10341a455f5192d2081b, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  startingPlayerSlots: 10
+  Teams:
+  - TeamName: TeamA
+    TeamPhotoTexture: {fileID: 2800000, guid: a29345e0c463fa74cb8ce0ff4e28caa5, type: 3}
+    TeamColor: {r: 0.8396226, g: 0.03561063, b: 0, a: 1}
+  - TeamName: TeamB
+    TeamPhotoTexture: {fileID: 2800000, guid: d7df64cdcca76a340b8901a892fff5f5, type: 3}
+    TeamColor: {r: 0, g: 0.44600797, b: 1, a: 1}
+  - TeamName: TeamC
+    TeamPhotoTexture: {fileID: 2800000, guid: 87f68fb0e4014d14895b1c20c863a736, type: 3}
+    TeamColor: {r: 0.990566, g: 0.8380966, b: 0.2569865, a: 1}
+  - TeamName: TeamD
+    TeamPhotoTexture: {fileID: 2800000, guid: 52d422ba07931c849a7adae137c0032a, type: 3}
+    TeamColor: {r: 0.65928507, g: 0, b: 1, a: 1}
+  defaultGridsCount: 100
+  turretRotateSpeed: 5
+  turretRotateDegree: 45
   gameDurationSeconds: 120
   playerEmptyDelayBeforeStart: 1.5
   countDownTime: 2
-  shownRankingCount: 5
-  rankingViewDuration: 10
-  playerShootDelay: 0.5
-  additionalPowerPerPowerUp: 0.5
-  randomPlayerShootDelay: {x: 0.25, y: 0.5}
-  playerDamagedDelay: 1.5
-  playerRotateSpeed: 2
-  projectilesPrefab:
-  - {fileID: 1226946521831017289, guid: 17ed975c612c3cc488b08701fc759faf, type: 3}
-  - {fileID: 747104544658537391, guid: ab0813f2f4b7a884d8165887222ccc4f, type: 3}
-  - {fileID: 2279712310010400261, guid: be412b310feab904796bdd70f50cf1e4, type: 3}
+  shootInterval: 0.05

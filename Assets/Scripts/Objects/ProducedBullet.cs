@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class ProducedBullet : MonoBehaviour
 {
-
-    public GameObject MeshParent;
+    public MeshRenderer ProducedMesh;
+    // public TextMeshPro ProducedAmountText;
     
     // Start is called before the first frame update
     void Start()

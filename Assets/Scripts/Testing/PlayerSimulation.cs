@@ -58,32 +58,28 @@ public class PlayerSimulation : MonoBehaviour
         Random.InitState(Random.Range(0, SimulationSettings.randomizerSeedRange));
         
         yield return new WaitForSeconds(GameManager.instance.gameSettings.playerEmptyDelayBeforeStart);
-        
-        if (SimulationSettings.useFixed)
+    
+        //Simulate totally random data received
+        for (int i = 0; i < SimulationSettings.simulatedDataReceivengOnStart; i++)
         {
-            //Simulate fixed player spawned on start
-            SimulateFixedSpawning();    
+            SimulateRandomSpawning();
         }
-        else
-        {
-            //Simulate totally random data received
-            for (int i = 0; i < SimulationSettings.simulatedDataReceivengOnStart; i++)
-            {
-                SimulateRandomSpawning();
-            }
-        }
-        
         
     }
-
-    private void SimulateFixedSpawning()
+    
+    //Function to simulate spawning using player's data
+    public void SimulateRandomSpawning()//bool initiate = false, int playerInfoId = 0)
     {
-        //repeating spawn until the spawned amount is same as fixed amount in the settings
-        SimulateRandomSpawning();
         
-            SimulateFixedSpawning();
+        SimulationSettings.DummyPlayerInfo spawnedPlayerInfo;
+        if (TryGetRandomPlayer(out spawnedPlayerInfo))
+        {
+            //Get Turret Shooting based on the team
+            Debug.Log("Try Get Random Player "+ spawnedPlayerInfo.nickname, gameObject);
+            ArenaManager.Instance.ProcessData(spawnedPlayerInfo);
         }
-
+    }
+    
     public bool TryGetRandomPlayer(out SimulationSettings.DummyPlayerInfo randomPlayerGet)
     {
         if (SimulationSettings.dummyPlayerDatabase.Count <= 0)
@@ -99,7 +95,8 @@ public class PlayerSimulation : MonoBehaviour
             SimulationSettings.DummyPlayerInfo newRandomDummy = new SimulationSettings.DummyPlayerInfo(SimulationSettings.randomDummyPlayerPlaceHolder);
             int uniqueId = Random.Range(0, 10);
             newRandomDummy.nickname = newRandomDummy.nickname +""+ uniqueId.ToString();
-            newRandomDummy.bullet = Random.Range(1, 4);
+            newRandomDummy.bullet = Random.Range(1, 20);
+            newRandomDummy.teamId = Random.Range(1, 5);
             
             randomPlayerGet = newRandomDummy;
         }
@@ -114,13 +111,7 @@ public class PlayerSimulation : MonoBehaviour
         
     }
     
-    //Function to simulate spawning using player's data
-    public void SimulateRandomSpawning()//bool initiate = false, int playerInfoId = 0)
-    {
-        
-        SimulationSettings.DummyPlayerInfo spawnedPlayerInfo;
-
-    }
+   
     
     
 }

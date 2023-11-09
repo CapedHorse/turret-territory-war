@@ -193,7 +193,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf1550755764084eaa9f6fbf655389b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turretTeamId: 0
   turretMeshParent: {fileID: 6930380961893478205}
+  bulletPrefab: {fileID: 5588826153259673612, guid: 2f77b8948df835245a03a8e6de2f3bac,
+    type: 3}
   allowMove: 0
   maxRotRight: {x: 0, y: 0, z: 0, w: 0}
   maxRotLeft: {x: 0, y: 0, z: 0, w: 0}

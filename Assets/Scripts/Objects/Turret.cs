@@ -1,22 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using CapedHorse;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, ITeamHolder
 {
 
+    public int turretTeamId;
     public GameObject turretMeshParent;
+    public Bullet bulletPrefab;
     
-    [SerializeField] bool allowMove = false;//, moveRight = true;
+    [SerializeField] bool allowMove;//, moveRight = true;
 
     [SerializeField] Quaternion maxRotRight, maxRotLeft;
     
     [SerializeField] float lerp, fixedPlayTime;
     
+    
     void Start()
     {
-        InitiateRandomColor();
-        
         float angle = GameManager.instance.gameSettings.turretRotateDegree;
         // transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x,
         //     Random.Range(transform.localEulerAngles.y - angle, transform.localEulerAngles.y + angle), transform.localEulerAngles.z);
@@ -27,15 +31,23 @@ public class Turret : MonoBehaviour
         StartCoroutine(DelayedStart());
     }
 
-    //for temporary, should have got it from game setting's team
-    void InitiateRandomColor()
+    private void Update()
     {
-        Color randColor = new Color(Random.Range(0, 1f), Random.Range(0, 1f), 0.6f, 1);
-        foreach (var turretMesh in turretMeshParent.GetComponentsInChildren<MeshRenderer>())
+        
+    }
+
+    public void InitiateTeam(int teamId, GameSettings.Team team)
+    {
+        turretTeamId = teamId;
+        foreach (var mesh in turretMeshParent.GetComponentsInChildren<MeshRenderer>())
         {
-            turretMesh.materials[0].color = randColor;
+            foreach (var material in mesh.materials)
+            {
+                material.color = team.TeamColor;
+            }
         }
     }
+
 
     IEnumerator DelayedStart()
     {
@@ -54,5 +66,10 @@ public class Turret : MonoBehaviour
                            + Mathf.Sin(Mathf.PI * fixedPlayTime * 0.1f));
             transform.localRotation = Quaternion.Lerp(maxRotLeft, maxRotRight, lerp);
         }
+    }
+
+    public void ShootBullet()
+    {
+        
     }
 }

@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         playTime = gameSettings.gameDurationSeconds;
-        StartGame();
+        
     }
 
-    //TODO call this function from server once API is implemented, for now, start imediately
+    //TODO call this function from server once API is implemented, for now, start when initialization of the arena is done
     public void StartGame()
     {
-        // StartCoroutine(StartCountDown());
+        StartCoroutine(StartCountDown());
     }
 
     private IEnumerator StartCountDown()
