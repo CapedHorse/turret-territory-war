@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CapedHorse;
-
+using DG.Tweening;
+using Lean.Pool;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine;
 public class TeamMachine : MonoBehaviour, ITeamHolder
 {
     public int BulletProducerTeamId;
-    
+    public Color BulletProducerColor;
     public Transform BulletStartPoint, BulletEndPoint;
 
     public Turret TeamTurret;
@@ -54,6 +55,8 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
         {
             playTime = 0;
             TeamTurret.ShootBullet();
+            bulletSupply -= 1;
+            ProducedBulletText.text = bulletSupply.ToString();
         }
 
     }
@@ -61,6 +64,7 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
     public void InitiateTeam(int teamId, GameSettings.Team team)
     {
         BulletProducerTeamId = teamId;
+        BulletProducerColor = team.TeamColor;
         
         foreach (var mesh in MachineTrayMeshes)
         {
@@ -75,6 +79,8 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
         ProducedBulletText.color = team.TeamColor;
         
         TeamTurret.InitiateTeam(teamId, team);
+
+        ProducedBulletText.text = "0";
     }
     
     
@@ -82,6 +88,13 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
     public void ProduceBullet(int amount)
     {
         bulletSupply += amount;
+        ProducedBulletText.text = bulletSupply.ToString();
+        ProducedBullet newProduced = LeanPool.Spawn(ProducedBulletPrefab, BulletStartPoint.position, Quaternion.identity);
+        newProduced.InitiateProducedBullet(BulletProducerColor);
+        newProduced.transform.DOMoveZ(BulletStartPoint.position.z, 2).onComplete = () =>
+        {
+            newProduced.Despawn();
+        };
     }
     
 }

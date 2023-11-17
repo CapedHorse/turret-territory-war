@@ -41,23 +41,20 @@ public class GameManager : MonoBehaviour
     //TODO call this function from server once API is implemented, for now, start when initialization of the arena is done
     public void StartGame()
     {
-        StartCoroutine(StartCountDown());
-    }
-
-    private IEnumerator StartCountDown()
-    {
-        UIManager.instance.SetCountDownPanel(true);
-        yield return new WaitForSeconds(gameSettings.countDownTime);
-        UIManager.instance.SetCountDownPanel(false);
+        UIManager.instance.SetLoadingPanel(false);
         playGame = true;
         OnGameStarted.Invoke();
     }
+
 
     // Update is called once per frame
     void Update()
     {
         if (playGame)
         {
+            playTime += Time.deltaTime;
+            UIManager.instance.UpdateTimeText(playTime);
+            
             /*
              playTime -= Time.deltaTime;
             UIManager.instance.UpdateTimeText(playTime);
@@ -78,11 +75,11 @@ public class GameManager : MonoBehaviour
     {
         playGame = false;
         
-        UIManager.instance.SetGameOverPanel(true);
+        // UIManager.instance.SetGameOverPanel(true);
         
         yield return new WaitForSeconds(2f);
         
-        UIManager.instance.SetGameOverPanel(false);
+        // UIManager.instance.SetGameOverPanel(false);
 
         yield return new WaitForSeconds(gameSettings.countDownTime);
 

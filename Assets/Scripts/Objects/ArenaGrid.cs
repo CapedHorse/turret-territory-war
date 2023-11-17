@@ -19,19 +19,7 @@ public class ArenaGrid : MonoBehaviour
     public float ColorTweenSpeed = 0.15f, MoveTweenSpeed = 0.1f;
 
     private bool IsTweening;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+   
     public void Initiate()
     {
         GridPhotoPlane.material.mainTexture = null;
@@ -40,6 +28,11 @@ public class ArenaGrid : MonoBehaviour
 
         GridPhotoPlane.material.DOColor(Color.white, ColorTweenSpeed);
         GridMesh.material.DOColor(Color.white, ColorTweenSpeed);
+    }
+
+    public void TestTexture()
+    {
+        GridPhotoPlane.material.mainTexture = GameManager.instance.gameSettings.Teams[0].TeamPhotoTexture;
     }
 
     //tween the grid mesh to up then down but can only once
@@ -85,11 +78,17 @@ public class ArenaGrid : MonoBehaviour
     {
         if (other.GetComponent<ArenaGrid>())
             return;
+        if (!other.CompareTag("Bullet"))
+            return;
         if (other.GetComponent<Bullet>())
-        {
-           CurrentTeam = GameManager.instance.gameSettings.Teams[other.GetComponent<Bullet>().BulletTeamId];
-           if(IsTweening) TweenGridMesh(true);
-           else SwitchTeams();
+        { 
+            if (CurrentTeam != null && other.GetComponent<Bullet>().BulletTeamId == CurrentTeam.teamId)
+                return;
+            CurrentTeam = GameManager.instance.gameSettings.Teams[other.GetComponent<Bullet>().BulletTeamId]; 
+            if(IsTweening) TweenGridMesh(true);
+            else SwitchTeams();
+            
+            other.GetComponent<Bullet>().Despawn();
         }
     }
 }

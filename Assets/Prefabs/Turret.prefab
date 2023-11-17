@@ -194,9 +194,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretTeamId: 0
+  turretTeamColor: {r: 0, g: 0, b: 0, a: 0}
   turretMeshParent: {fileID: 6930380961893478205}
   bulletPrefab: {fileID: 5588826153259673612, guid: 2f77b8948df835245a03a8e6de2f3bac,
     type: 3}
+  bulletRail: {fileID: 4774474109252415824}
   allowMove: 0
   maxRotRight: {x: 0, y: 0, z: 0, w: 0}
   maxRotLeft: {x: 0, y: 0, z: 0, w: 0}

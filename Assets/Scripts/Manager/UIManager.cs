@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
@@ -7,10 +8,7 @@ public class UIManager : MonoBehaviour
 
     //Reference
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private GameObject countDownPanel;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private GameObject nextRoundPanel;
-    public TextMeshProUGUI debugSpawnOnScreen;
+    [SerializeField] private GameObject loadingPanel;
     
     //caches
     
@@ -24,6 +22,8 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        SetLoadingPanel(true);
     }
     
 
@@ -34,19 +34,9 @@ public class UIManager : MonoBehaviour
         timerText.text = time.ToString("mm':'ss");
     }
 
-    public void SetCountDownPanel(bool on)
+    public void SetLoadingPanel(bool on)
     {
-        countDownPanel.SetActive(on);
-    }
-
-    public void SetGameOverPanel(bool on)
-    {
-        gameOverPanel.SetActive(on);
-    }
-
-    public void SetNextRoundPanel(bool on)
-    {
-        nextRoundPanel.SetActive(on);
+        loadingPanel.SetActive(on);
     }
 
 }

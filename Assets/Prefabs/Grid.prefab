@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6753316082516705875}
   - component: {fileID: 8020539701818479359}
   - component: {fileID: 2316730361818850928}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GridMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 7624601120146065248}
   - component: {fileID: 899938975483943166}
   - component: {fileID: 3407701400034552758}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Grid
   m_TagString: Grid
   m_Icon: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   GridPhotoPlane: {fileID: 5492690058209560293}
   GridCollider: {fileID: 899938975483943166}
   CurrentTeam:
+    teamId: 0
     TeamName: 
     TeamPhotoTexture: {fileID: 0}
     TeamColor: {r: 0, g: 0, b: 0, a: 0}
@@ -151,10 +152,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -198,8 +199,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2707026321610887593}
-  m_Layer: 0
-  m_Name: GameObject
+  m_Layer: 7
+  m_Name: MeshParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,8 +233,7 @@ GameObject:
   - component: {fileID: 1224733868252603455}
   - component: {fileID: 4138851944152733762}
   - component: {fileID: 5492690058209560293}
-  - component: {fileID: 2058614405160688572}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,25 +305,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2058614405160688572
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5347275212497042666}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}

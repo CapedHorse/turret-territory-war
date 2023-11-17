@@ -6,7 +6,7 @@ public class GameSettings : ScriptableObject
 {
     public List<Team> Teams;
     public int defaultGridsCount = 100;
-    [Range(1, 10)] public float turretRotateSpeed = 5;
+    // [Range(1, 10)] public float turretRotateSpeed = 5;
     public float turretRotateDegree = 45;
     public float gameDurationSeconds = 540;
     public float playerEmptyDelayBeforeStart = 1.5f;
@@ -17,6 +17,7 @@ public class GameSettings : ScriptableObject
     [System.Serializable]
     public class Team
     {
+        public int teamId;
         public string TeamName;
         [Tooltip("Resolusi foto harus sama, misal 512x512")] public Texture TeamPhotoTexture;
         public Color TeamColor;

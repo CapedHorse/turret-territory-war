@@ -13,20 +13,23 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   Teams:
-  - TeamName: TeamA
+  - teamId: 1
+    TeamName: TeamA
     TeamPhotoTexture: {fileID: 2800000, guid: a29345e0c463fa74cb8ce0ff4e28caa5, type: 3}
     TeamColor: {r: 0.8396226, g: 0.03561063, b: 0, a: 1}
-  - TeamName: TeamB
+  - teamId: 2
+    TeamName: TeamB
     TeamPhotoTexture: {fileID: 2800000, guid: d7df64cdcca76a340b8901a892fff5f5, type: 3}
     TeamColor: {r: 0, g: 0.44600797, b: 1, a: 1}
-  - TeamName: TeamC
+  - teamId: 3
+    TeamName: TeamC
     TeamPhotoTexture: {fileID: 2800000, guid: 87f68fb0e4014d14895b1c20c863a736, type: 3}
     TeamColor: {r: 0.990566, g: 0.8380966, b: 0.2569865, a: 1}
-  - TeamName: TeamD
+  - teamId: 4
+    TeamName: TeamD
     TeamPhotoTexture: {fileID: 2800000, guid: 52d422ba07931c849a7adae137c0032a, type: 3}
     TeamColor: {r: 0.65928507, g: 0, b: 1, a: 1}
-  defaultGridsCount: 100
-  turretRotateSpeed: 5
+  defaultGridsCount: 225
   turretRotateDegree: 45
   gameDurationSeconds: 120
   playerEmptyDelayBeforeStart: 1.5
