@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Grid
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Bullet
   - Grid
-  - 
+  - Wall
   - 
   - 
   - 

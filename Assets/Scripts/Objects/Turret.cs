@@ -11,9 +11,10 @@ public class Turret : MonoBehaviour, ITeamHolder
 
     public int turretTeamId;
     public Color turretTeamColor;
-    public GameObject turretMeshParent;
+    // public GameObject turretMeshParent;
     public Bullet bulletPrefab;
     public Transform bulletRail;
+    public float bulletSpeed = 1f;
     
     [SerializeField] bool allowMove;//, moveRight = true;
 
@@ -38,13 +39,13 @@ public class Turret : MonoBehaviour, ITeamHolder
     {
         turretTeamId = teamId;
         turretTeamColor = team.TeamColor;
-        foreach (var mesh in turretMeshParent.GetComponentsInChildren<MeshRenderer>())
+        /*foreach (var mesh in turretMeshParent.GetComponentsInChildren<MeshRenderer>())
         {
             foreach (var material in mesh.materials)
             {
                 material.color = turretTeamColor;
             }
-        }
+        }*/
     }
 
 
@@ -62,7 +63,7 @@ public class Turret : MonoBehaviour, ITeamHolder
             //move to left at first
             fixedPlayTime += Time.fixedDeltaTime;
             lerp = .5f * (/*GameManager.instance.gameSettings.turretRotateSpeed */ 1
-                           + Mathf.Sin(Mathf.PI * fixedPlayTime * 0.5f));
+                           + Mathf.Sin(Mathf.PI * fixedPlayTime * 0.25f));
             transform.localRotation = Quaternion.Lerp(maxRotLeft, maxRotRight, lerp);
         }
     }
@@ -71,6 +72,7 @@ public class Turret : MonoBehaviour, ITeamHolder
     {
         Bullet spawnedBullet = LeanPool.Spawn(bulletPrefab, bulletRail.position, bulletRail.rotation);
         spawnedBullet.InitiateBullet(turretTeamId, turretTeamColor);
-        spawnedBullet.Launch(bulletRail.forward);
+        spawnedBullet.Launch(bulletRail.forward, bulletSpeed);
+        // Debug.Log("Shooting bullet by team "+turretTeamId, gameObject);
     }
 }

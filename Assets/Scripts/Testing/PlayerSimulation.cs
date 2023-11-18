@@ -75,7 +75,7 @@ public class PlayerSimulation : MonoBehaviour
         if (TryGetRandomPlayer(out spawnedPlayerInfo))
         {
             //Get Turret Shooting based on the team
-            Debug.Log("Try Get Random Player "+ spawnedPlayerInfo.nickname, gameObject);
+            // Debug.Log("Try Get Random Player "+ spawnedPlayerInfo.nickname, gameObject);
             ArenaManager.Instance.ProcessData(spawnedPlayerInfo);
         }
     }
@@ -90,8 +90,8 @@ public class PlayerSimulation : MonoBehaviour
         }
         
         //Will have a chance to spawn totally random dummy instead of the one on the list
-        if (Random.Range(0,2) > 0)
-        {
+        /*if (Random.Range(0,2) > 0)
+        {*/
             SimulationSettings.DummyPlayerInfo newRandomDummy = new SimulationSettings.DummyPlayerInfo(SimulationSettings.randomDummyPlayerPlaceHolder);
             int uniqueId = Random.Range(0, 10);
             newRandomDummy.nickname = newRandomDummy.nickname +""+ uniqueId.ToString();
@@ -99,13 +99,13 @@ public class PlayerSimulation : MonoBehaviour
             newRandomDummy.teamId = Random.Range(1, 5);
             
             randomPlayerGet = newRandomDummy;
-        }
-        else
+        // }
+        /*else
         {
              randomPlayerGet =
                 SimulationSettings.dummyPlayerDatabase[Random.Range(0, SimulationSettings.dummyPlayerDatabase.Count)];
             
-        }
+        }*/
         return true;
         
         

@@ -134,14 +134,14 @@ MonoBehaviour:
   GridTweenTransform: {fileID: 6753316082516705875}
   GridMesh: {fileID: 2316730361818850928}
   GridPhotoPlane: {fileID: 5492690058209560293}
-  GridCollider: {fileID: 899938975483943166}
   CurrentTeam:
     teamId: 0
     TeamName: 
     TeamPhotoTexture: {fileID: 0}
     TeamColor: {r: 0, g: 0, b: 0, a: 0}
+    TeamDarkColor: {r: 0, g: 0, b: 0, a: 0}
   ColorTweenSpeed: 0.25
-  MoveTweenSpeed: 0.1
+  MoveTweenSpeed: 0.5
 --- !u!65 &899938975483943166
 BoxCollider:
   m_ObjectHideFlags: 0

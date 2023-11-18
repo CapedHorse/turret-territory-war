@@ -13,7 +13,9 @@ public class ArenaManager : MonoBehaviour
     public static ArenaManager Instance;
 
     public Transform GridParent;
+    public BoxCollider GridParentBoxCol;
     public List<TeamMachine> BulletProducers;
+    public Dictionary<int, TeamMachine> BulletProducerMaps;
     [FormerlySerializedAs("GridPrefab")] public ArenaGrid arenaGridPrefab;
     // public List<Turret> Turrets;
     public List<ArenaGrid> Grids;
@@ -34,6 +36,7 @@ public class ArenaManager : MonoBehaviour
 
     async void Start()
     {
+        BulletProducerMaps = new Dictionary<int, TeamMachine>();
         await InitiateArena();
         
         GameManager.instance.StartGame();
@@ -45,14 +48,17 @@ public class ArenaManager : MonoBehaviour
         //Initiate Bullet Machine and Turrets
         for (int i = 0; i < GameManager.instance.gameSettings.Teams.Count; i++)
         {
-            GameSettings.Team currentTeam = GameManager.instance.gameSettings.Teams[i];
-            BulletProducers[i].InitiateTeam(i, currentTeam);
+            GameSettings.Team currentTeam = GameManager.instance.gameSettings.GetTeam(i+1);
+            BulletProducers[i].InitiateTeam(i+1, currentTeam);
+            BulletProducerMaps.Add(i+1, BulletProducers[i]);
         }
 
         //Initiate Grids
 
-        float gridScale = Mathf.Sqrt(GameManager.instance.gameSettings.defaultGridsCount) / GridParent.lossyScale.x;
-        float textureTilingScale = gridScale/10f;
+        float gridScale = GridParent.lossyScale.x / Mathf.Sqrt(GameManager.instance.gameSettings.defaultGridsCount) / GridParent.lossyScale.x;
+        float textureTilingScale = Mathf.Round(gridScale) * 0.01f;
+        Vector2 textureInitOffset = new Vector2();
+        initPos = new Vector3(GridParentBoxCol.bounds.min.x, 1, GridParentBoxCol.bounds.min.z);
         Vector2 gridRowColumn = Vector2.one * Mathf.Floor(Mathf.Sqrt(GameManager.instance.gameSettings.defaultGridsCount));
 
         for (int i = 0; i < gridRowColumn.x; i++)
@@ -65,8 +71,8 @@ public class ArenaManager : MonoBehaviour
                 newArenaGrid.transform.localScale = new Vector3(gridScale, 1, gridScale);
 
                 //Set the position to match the grid based on grid bound
-                float xPos = (10 * (initPos.x * gridScale)) + ( j *  (gridScale / 2)) * 2;
-                float zPos =  ( 10 * (initPos.z * gridScale)) + ( i * (gridScale / 2)) * 2;
+                float xPos = initPos.x / 10 + newArenaGrid.transform.localScale.x/2 + gridScale  * j;
+                float zPos = initPos.z / 10 + newArenaGrid.transform.localScale.z/2 + gridScale * i;
 
                 newArenaGrid.transform.localPosition = new Vector3(xPos, initPos.y, zPos);
             
@@ -83,16 +89,19 @@ public class ArenaManager : MonoBehaviour
 
                 newArenaGrid.Initiate();
 
-                newArenaGrid.TestTexture();
-                
                 Grids.Add(newArenaGrid);
             }
+        }
+
+        foreach (var producer in BulletProducers)
+        {
+            producer.SetCanShoot(true);
         }
     }
 
     public void ProcessData(SimulationSettings.DummyPlayerInfo playerInfo)
     {
-        BulletProducers[playerInfo.teamId-1].ProduceBullet(playerInfo.bullet);
+        BulletProducerMaps[playerInfo.teamId].ProduceBullet(playerInfo.bullet);
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ArenaGrid : MonoBehaviour
 {
@@ -12,13 +13,14 @@ public class ArenaGrid : MonoBehaviour
 
     public MeshRenderer GridPhotoPlane;
 
-    public BoxCollider GridCollider;
-
     public GameSettings.Team CurrentTeam;
 
-    public float ColorTweenSpeed = 0.15f, MoveTweenSpeed = 0.1f;
+    public float ColorTweenSpeed = 0.15f;
+    [FormerlySerializedAs("MoveTweenSpeed")] public float MoveTweenDuration = 1f;
 
     private bool IsTweening;
+
+    private int teamId = 0;
    
     public void Initiate()
     {
@@ -26,14 +28,17 @@ public class ArenaGrid : MonoBehaviour
         GridPhotoPlane.material.color = Color.black;
         GridMesh.material.color = Color.black;
 
-        GridPhotoPlane.material.DOColor(Color.white, ColorTweenSpeed);
-        GridMesh.material.DOColor(Color.white, ColorTweenSpeed);
+        GridPhotoPlane.material.DOColor( GameManager.instance.gameSettings.DefaultTeamColor, ColorTweenSpeed);
+        GridMesh.material.DOColor( GameManager.instance.gameSettings.DefaultTeamDarkColor, ColorTweenSpeed);
+
+        CurrentTeam = GameManager.instance.gameSettings.GetTeam(1);
+        SwitchTeams();
     }
 
-    public void TestTexture()
+    /*public void TestTexture()
     {
-        GridPhotoPlane.material.mainTexture = GameManager.instance.gameSettings.Teams[0].TeamPhotoTexture;
-    }
+        GridPhotoPlane.material.mainTexture = GameManager.instance.gameSettings.GetTeam(1).TeamPhotoTexture;
+    }*/
 
     //tween the grid mesh to up then down but can only once
     //After done, automatically switch team anim
@@ -42,24 +47,35 @@ public class ArenaGrid : MonoBehaviour
         if (IsTweening)
             return;
 
+        DOTween.Complete(GridMesh.transform);
+
         IsTweening = true;
-        
-        GridMesh.transform.DOLocalMoveY(1, MoveTweenSpeed).onComplete = () =>
+
+        GridMesh.transform.DOLocalJump(GridMesh.transform.localPosition
+            /*new Vector3(GridMesh.transform.localPosition.x, 1, GridMesh.transform.localPosition.z)*/,
+            1, 1, MoveTweenDuration).onComplete = () =>
         {
-            GridMesh.transform.DOLocalMoveY(0, MoveTweenSpeed).onComplete = () =>
-            {
-                IsTweening = false;
-                if(switchingTeams) SwitchTeams();
-            };
+            if (switchingTeams) SwitchTeams();
+            IsTweening = false;
         };
+
+        /*.DOLocalMoveY(1, MoveTweenDuration).onComplete = () =>
+    {
+        GridMesh.transform.DOLocalMoveY(0, MoveTweenDuration).onComplete = () =>
+        {
+            
+
+        };
+
+    };*/
     }
 
     //switch color and picture of the team
     public void SwitchTeams()
     {
-        GridPhotoPlane.material.mainTexture = null;
-        GridPhotoPlane.material.color = Color.white;
-        GridMesh.material.color = Color.white;
+        /*GridPhotoPlane.material.mainTexture = null;
+        GridPhotoPlane.material.color = GameManager.instance.gameSettings.DefaultTeamColor;
+        GridMesh.material.color =  GameManager.instance.gameSettings.DefaultTeamDarkColor;*/
 
         Sequence GridInitiateTween = DOTween.Sequence();
 
@@ -70,7 +86,7 @@ public class ArenaGrid : MonoBehaviour
         {
             GridPhotoPlane.material.mainTexture = CurrentTeam.TeamPhotoTexture;
             GridPhotoPlane.material.DOColor(CurrentTeam.TeamColor, ColorTweenSpeed);
-            GridMesh.material.DOColor(CurrentTeam.TeamColor, ColorTweenSpeed).onComplete = () => CurrentTeam = new GameSettings.Team();
+            GridMesh.material.DOColor(CurrentTeam.TeamDarkColor, ColorTweenSpeed);
         };
     }
 
@@ -81,14 +97,17 @@ public class ArenaGrid : MonoBehaviour
         if (!other.CompareTag("Bullet"))
             return;
         if (other.GetComponent<Bullet>())
-        { 
-            if (CurrentTeam != null && other.GetComponent<Bullet>().BulletTeamId == CurrentTeam.teamId)
+        {
+            if (other.GetComponent<Bullet>().BulletTeamId == teamId)
                 return;
-            CurrentTeam = GameManager.instance.gameSettings.Teams[other.GetComponent<Bullet>().BulletTeamId]; 
-            if(IsTweening) TweenGridMesh(true);
-            else SwitchTeams();
             
+            CurrentTeam = GameManager.instance.gameSettings.GetTeam(other.GetComponent<Bullet>().BulletTeamId);
+            teamId = CurrentTeam.teamId;
+            TweenGridMesh(true);
             other.GetComponent<Bullet>().Despawn();
+            
+           
+            
         }
     }
 }

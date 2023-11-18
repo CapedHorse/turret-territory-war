@@ -17,30 +17,19 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
     public Turret TeamTurret;
 
     public TextMeshPro TeamNameText, ProducedBulletText;
-
-    public MeshRenderer[] MachineTrayMeshes;
-
+    
     public ProducedBullet ProducedBulletPrefab;
 
-    void SetCanShoot(bool _canShoot)
+    public void SetCanShoot(bool _canShoot)
     {
         canShoot = _canShoot;
     }
     
-    private bool canShoot;
+    [SerializeField] private bool canShoot;
 
-    private int bulletSupply;
+    [SerializeField] private int bulletSupply;
 
     private float playTime;
-
-    private void Start()
-    {
-        
-        GameManager.instance.OnGameStarted.AddListener(() =>
-        {
-            canShoot = true;
-        });
-    }
 
     private void Update()
     {
@@ -65,14 +54,6 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
     {
         BulletProducerTeamId = teamId;
         BulletProducerColor = team.TeamColor;
-        
-        foreach (var mesh in MachineTrayMeshes)
-        {
-            foreach (var material in mesh.materials)
-            {
-                material.color = team.TeamColor;
-            }
-        }
 
         TeamNameText.text = team.TeamName;
         TeamNameText.color = team.TeamColor;
@@ -91,10 +72,11 @@ public class TeamMachine : MonoBehaviour, ITeamHolder
         ProducedBulletText.text = bulletSupply.ToString();
         ProducedBullet newProduced = LeanPool.Spawn(ProducedBulletPrefab, BulletStartPoint.position, Quaternion.identity);
         newProduced.InitiateProducedBullet(BulletProducerColor);
-        newProduced.transform.DOMoveZ(BulletStartPoint.position.z, 2).onComplete = () =>
+        newProduced.transform.DOMoveZ(BulletEndPoint.position.z, 2).onComplete = () =>
         {
             newProduced.Despawn();
         };
+        // Debug.Log("This Machine "+BulletProducerTeamId+" produced bullet", gameObject);
     }
     
 }
