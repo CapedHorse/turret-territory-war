@@ -56,7 +56,8 @@ public class ArenaManager : MonoBehaviour
         //Initiate Grids
 
         float gridScale = GridParent.lossyScale.x / Mathf.Sqrt(GameManager.instance.gameSettings.defaultGridsCount) / GridParent.lossyScale.x;
-        float textureTilingScale = Mathf.Round(gridScale) * 0.01f;
+        float textureTilingScale = gridScale;
+        // float maxTextureOffsetValue = 0.9f;
         Vector2 textureInitOffset = new Vector2();
         initPos = new Vector3(GridParentBoxCol.bounds.min.x, 1, GridParentBoxCol.bounds.min.z);
         Vector2 gridRowColumn = Vector2.one * Mathf.Floor(Mathf.Sqrt(GameManager.instance.gameSettings.defaultGridsCount));
@@ -81,8 +82,8 @@ public class ArenaManager : MonoBehaviour
                 material.mainTextureScale =  new Vector2(textureTilingScale, textureTilingScale);
             
                 //Set the grid photo texture offset based on position
-                float textureTilingOffsetX = textureTilingScale * j;
-                float textureTilingOffsetY = textureTilingScale * i;
+                float textureTilingOffsetX = textureTilingScale * j;// (maxTextureOffsetValue - gridRowColumn.y * j )/ 100; 
+                float textureTilingOffsetY = textureTilingScale * i;// (maxTextureOffsetValue - gridRowColumn.x * i )/ 100; 
                 material.mainTextureOffset =  new Vector2(textureTilingOffsetX, textureTilingOffsetY);
                 
                 newArenaGrid.GridPhotoPlane.material = material;
